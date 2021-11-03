@@ -25,7 +25,6 @@ def home(request):
 
 
 def products(request):
-
     products = Product.objects.all()
 
     context = {
@@ -39,7 +38,6 @@ def customers(request, pk):
     orders = customer.order_set.all()
     order_count = orders.count()
 
-
     context = {
         'customer': customer,
         'orders': orders,
@@ -47,44 +45,28 @@ def customers(request, pk):
     }
     return render(request, 'accounts/customers.html', context)
 
-def create_order(request):
+
+def create_order(request, pk):
     form = OrderForm()
     if request.method == 'POST':
         form = OrderForm(request.POST)
         if form.is_valid():
             form.save()
-            return redirect('home')
+            return redirect("home")
 
     context = {
         'form': form
     }
     return render(request, 'accounts/order_form.html', context)
 
-def update_order(request, pk):
-    order = Order.objects.get(pk=pk)
-    form = OrderForm(instance=order)
-
-    if request.method == 'POST':
-        form = OrderForm(request.POST, instance=order)
-        if form.is_valid():
-            form.save()
-
-            return redirect('home')
-
-        context = {
-            'form': form
-        }
-        return render(request, 'order_form.html', context)
 
 
-def delete_order(request, pk):
-    order = Order.objects.get(id=pk)
-    if request.method == "POST":
-        order.delete()
-        return redirect("home")
+# def update_order(request, pk):
 
-    context = {
-        'item': order
-    }
-    return render(request, 'accounts/delete.html', context)
+        
+#         return render(request, 'accounts/order_form.html', context)
 
+
+# def delete_order(request, pk):
+    
+#     return render(request, 'accounts/delete.html', context)
