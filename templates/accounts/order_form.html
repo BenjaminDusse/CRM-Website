@@ -6,10 +6,13 @@
             <div class="card card-body">
                 <form method="post">
                     {% csrf_token %}
-                    {{ form }}
+                    {{ formset.management_form }}
+                    {{ formset.as_p }}
                     <input type="submit" name="Submit">
+                    <br>
                 </form>
             </div>
         </div>
     </div>
 {% endblock %}
+

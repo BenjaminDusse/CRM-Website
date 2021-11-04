@@ -1,7 +1,10 @@
 from django.views.generic import TemplateView, ListView, DetailView
 from django.shortcuts import render, redirect
+from django.forms import inlineformset_factory
+
 from .models import Order, Customer, Product, Tag
 from .forms import OrderForm
+from .filters import OrderFilter
 
 
 def home(request):
@@ -38,27 +41,36 @@ def customers(request, pk):
     orders = customer.order_set.all()
     order_count = orders.count()
 
+    myFilter = OrderFilter(request.GET, queryset=orders)
+    orders = myFilter.qs # querysetni qo'shadi orders ni ustidan override qiladi
+
     context = {
         'customer': customer,
         'orders': orders,
-        'order_count': order_count
+        'order_count': order_count,
+        'myFilter': myFilter
     }
     return render(request, 'accounts/customers.html', context)
 
 
+
 def create_order(request, pk):
+    OrderFormSet = inlineformset_factory(Customer, Order, fields=('product', 'status'), extra=2)
     customer = Customer.objects.get(pk=pk)
-    form = OrderForm(initial={'customer': customer})
+    formset = OrderFormSet(queryset = Order.objects.none(),instance=customer)
+    # form = OrderForm(initial={'customer': customer})
     if request.method == 'POST':
-        form = OrderForm(request.POST)
-        if form.is_valid():
-            form.save()
+        formset = OrderFormSet(request.POST, instance=customer)
+        # form = OrderForm(request.POST)
+        if formset.is_valid():
+            formset.save()
             return redirect("home")
 
     context = {
-        'form': form
+        'formset': formset
     } 
     return render(request, 'accounts/order_form.html', context)
+
 
 
 
