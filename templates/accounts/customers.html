@@ -10,7 +10,7 @@
                 <h5>Customer: {{ customer.name }}</h5>
                 <hr>
                 <a class="btn btn-outline-info  btn-sm btn-block" href="">Update Customer</a>
-                <a class="btn btn-outline-info  btn-sm btn-block" href="">Place Order</a>
+                <a class="btn btn-outline-info  btn-sm btn-block" href="{% url 'create-order' customer.id %}">Place Order</a>
 
             </div>
         </div>
@@ -43,7 +43,7 @@
                 <button class="btn btn-primary" type="submit">Search</button>
               </form>
             </div>
-        </div>
+        </div>~
 
     </div>
     <br>
