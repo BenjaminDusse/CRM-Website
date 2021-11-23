@@ -9,4 +9,11 @@ urlpatterns = [
     path("create-order/<int:pk>/", views.create_order, name="create-order"),
     path("update-order/<int:pk>/", views.update_order, name="update-order"),
     path("delete-order/<int:pk>/", views.delete_order, name="delete-order"),
+
+    path("register/", views.register, name="register"),
+    path("login/", views.login, name="login"),
+    path("logout/", views.logout, name="logout"),
+
+
+
 ]
