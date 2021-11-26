@@ -14,10 +14,11 @@ class Customer(models.Model):
     name = models.CharField(max_length=200)
     phone = models.CharField(max_length=200)
     email = models.CharField(max_length=200)
+    profile_pic = models.ImageField(null=True, blank=True)
     date_created = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return self.name
+        return self.user.username
 
 
 class Product(models.Model):
